@@ -49,3 +49,5 @@ modules.xml
 
 .idea/sonarlint
 /.mvn/
+/target/
+/target/
