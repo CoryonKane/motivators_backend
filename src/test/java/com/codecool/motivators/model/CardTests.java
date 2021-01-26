@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class CardTests {
     @Test
-    void testGetters () {
+    void testCardTypeGetters () {
         CardType card = CardType.ACCEPTANCE;
         String name = card.getName();
         assertEquals("Acceptance", name);
