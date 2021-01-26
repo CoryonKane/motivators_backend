@@ -25,7 +25,5 @@ public class Card {
     @Builder.Default
     private CardValueType value = CardValueType.NEUTRAL;
     @ManyToOne(optional = false)
-    private Question question;
-    @ManyToOne(optional = false)
-    private User owner;
+    private CardList list;
 }
