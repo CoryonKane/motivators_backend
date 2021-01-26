@@ -1,5 +1,10 @@
 package com.codecool.motivators.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum CardType {
     CURIOSITY("Curiosity", "I have plenty of things to investigate and to think about.", ""),
     HONOR("Honor", "I feel proud that my personal values are reflected in how I work.", ""),
@@ -15,22 +20,4 @@ public enum CardType {
     private final String name;
     private final String value;
     private  final String imgUrl;
-
-    CardType (String name, String value, String imgUrl) {
-        this.name = name;
-        this.value = value;
-        this.imgUrl = imgUrl;
-    }
-
-    public String getName () {
-        return this.name;
-    }
-
-    public String getValue () {
-        return this.value;
-    }
-
-    public String getImgUrl () {
-        return this.imgUrl;
-    }
 }
