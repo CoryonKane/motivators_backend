@@ -5,15 +5,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
+@Entity
 public class Question {
+    @Id
+    @GeneratedValue
+    private Long id;
+    @Column(nullable = false)
     private String value;
-    // TODO: 2021. 01. 26. private List<Card> answer;
+    @OneToOne(optional = false)
+    private CardList answer;
     private String note;
     @Builder.Default
     private boolean closed = false;
-    // TODO: 2021. 01. 26. private QuestionGroup group;
+    @ManyToOne(optional = false)
+    private QuestionGroup group;
 }
