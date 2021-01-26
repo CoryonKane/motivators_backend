@@ -15,12 +15,7 @@ public class CardTests {
 
     @Test
     void testCardListAdd () {
-        Card card = Card.builder()
-                .owner(new User())
-                .position(1)
-                .question(new Question())
-                .type(CardType.ACCEPTANCE)
-                .build();
+        Card card = new Card();
         CardList list = new CardList();
         list.addCard(card);
         list.addCard(card);
@@ -29,12 +24,7 @@ public class CardTests {
 
     @Test
     void testCardListRemove () {
-        Card card = Card.builder()
-                .owner(new User())
-                .position(1)
-                .question(new Question())
-                .type(CardType.ACCEPTANCE)
-                .build();
+        Card card = new Card();
         CardList list = new CardList();
         list.addCard(card);
         list.removeCard(card);
