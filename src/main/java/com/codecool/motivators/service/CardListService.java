@@ -6,6 +6,7 @@ import com.codecool.motivators.repository.CardListRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,5 +22,10 @@ public class CardListService {
     public List<CardDto> getCardList(Long id) {
         CardList list = repository.getOne(id);
         return converter.convertCardList(list);
+    }
+
+    public CardList createCardList(CardList cardList) {
+        cardList.setCreatedOn(new Date());
+        return repository.save(cardList);
     }
 }

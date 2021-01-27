@@ -27,7 +27,7 @@ public class UserTests {
         User u = new User();
         CardList l = new CardList();
         u.addDefault(l);
-        assertFalse(u.getDefaults().isEmpty());
+        assertFalse(u.getDefaultLists().isEmpty());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class UserTests {
         CardList l = new CardList();
         u.addDefault(l);
         u.removeDefault(l);
-        assertTrue(u.getDefaults().isEmpty());
+        assertTrue(u.getDefaultLists().isEmpty());
     }
 
     @Test

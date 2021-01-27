@@ -50,7 +50,7 @@ public class DtoConverterService {
                 .name(user.getName())
                 .position(user.getPosition())
                 .defaultCardListId(user.getNewestDefault().getId())
-                .olderCardListsIds(user.getDefaults().keySet().stream().map(CardList::getId).collect(Collectors.toList()))
+                .olderCardListsIds(user.getDefaultLists().stream().map(CardList::getId).collect(Collectors.toList()))
                 .groupIds(user.getGroups().stream().map(QuestionGroup::getId).collect(Collectors.toList()))
                 .build();
     }

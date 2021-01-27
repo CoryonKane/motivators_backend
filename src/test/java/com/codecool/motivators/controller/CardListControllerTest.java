@@ -1,26 +1,32 @@
 package com.codecool.motivators.controller;
 
+import com.codecool.motivators.dto.CardDto;
 import com.codecool.motivators.service.CardListService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.mockito.Mockito.verify;
+import java.util.ArrayList;
+import java.util.List;
 
-@SpringBootTest
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class CardListControllerTest {
+    private CardListService service;
+    private CardListController controller;
 
-    @Mock
-    CardListService service;
-
-    @InjectMocks
-    CardListController controller;
+    @BeforeEach
+    public void setUp () {
+        service = mock(CardListService.class);
+        controller = new CardListController(service);
+    }
 
     @Test
     void testGetCardList () {
-        controller.getCardList((long) 1);
-        verify(service).getCardList((long) 1);
+        List<CardDto> list = new ArrayList<>();
+        when(service.getCardList(1L)).thenReturn(list);
+        assertEquals(list, controller.getCardList(1L));
     }
 
 }
