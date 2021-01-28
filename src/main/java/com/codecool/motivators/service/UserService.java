@@ -3,6 +3,7 @@ package com.codecool.motivators.service;
 import com.codecool.motivators.dto.CardDto;
 import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.dto.UserDto;
+import com.codecool.motivators.model.CardValueType;
 import com.codecool.motivators.model.User;
 import com.codecool.motivators.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
@@ -44,6 +45,7 @@ public class UserService {
 
     public List<CardDto> addDefault(Long id, List<CardDto> list) {
         User user = getUserById(id);
+        list.forEach(cardDto -> cardDto.setValue(CardValueType.NEUTRAL));
         user.addDefault(cardListService.createCardList(list));
         return converter.convertCardList(saveUser(user).getNewestDefault());
     }

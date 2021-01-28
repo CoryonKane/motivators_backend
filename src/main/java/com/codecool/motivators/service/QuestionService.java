@@ -29,33 +29,38 @@ public class QuestionService {
     }
 
     public QuestionDto getQuestionDtoById(Long id) {
-        return converter.convertQuestion(repository.getOne(id));
+        return converter.convertQuestion(getQuestionById(id));
+    }
+
+    public Question getQuestionById(Long id) {
+        return repository.getOne(id);
+    }
+
+    public Question saveQuestion(Question question) {
+        return repository.save(question);
     }
 
     public List<CardDto> setAnswer(Long questionId, List<CardDto> cards) {
-        Question question = repository.getOne(questionId);
+        Question question = getQuestionById(questionId);
         if (!question.isClosed()) {
             CardList cardList = cardListService.createCardList(cards);
             question.setAnswer(cardList);
         }
-        repository.save(question);
-        return converter.convertCardList(repository.getOne(questionId).getAnswer());
+        return converter.convertCardList(saveQuestion(question).getAnswer());
     }
 
     public String editNote(Long id, String note) {
-        Question question = repository.getOne(id);
+        Question question = getQuestionById(id);
         if (!question.isClosed()) {
             question.setNote(note);
-            repository.save(question);
         }
-        return repository.getOne(id).getNote();
+        return saveQuestion(question).getNote();
     }
 
     public QuestionDto closeQuestion(Long id) {
-        Question question = repository.getOne(id);
+        Question question = getQuestionById(id);
         question.setClosed(true);
-        repository.save(question);
-        return converter.convertQuestion(repository.getOne(id));
+        return converter.convertQuestion(saveQuestion(question));
     }
 
     public void deleteQuestion(Long id) {
@@ -67,7 +72,6 @@ public class QuestionService {
                 .group(questionGroupService.getQuestionGroupById(questionDto.getGroupId()))
                 .value(questionDto.getValue())
                 .build();
-        question = repository.save(question);
-        return converter.convertQuestion(repository.getOne(question.getId()));
+        return converter.convertQuestion(saveQuestion(question));
     }
 }
