@@ -42,4 +42,9 @@ public class QuestionController {
     public void deleteQuestion (@PathVariable("id") Long id) {
         service.deleteQuestion(id);
     }
+
+    @PostMapping("")
+    public QuestionDto createQuestion (@RequestBody QuestionDto questionDto) {
+        return service.createQuestion(questionDto);
+    }
 }

@@ -1,28 +1,33 @@
 package com.codecool.motivators.service;
 
+import com.codecool.motivators.dto.CardDto;
 import com.codecool.motivators.model.CardList;
 import com.codecool.motivators.repository.CardListRepository;
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Matchers;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CardListServiceTest {
     private CardListRepository repository;
     private CardListService service;
+    private CardService cardService;
     private DtoConverterService converter;
 
     @BeforeEach
     public void setUp () {
         converter = mock(DtoConverterService.class);
         repository = mock(CardListRepository.class);
-        service = new CardListService(converter, repository);
+        cardService = mock(CardService.class);
+        service = new CardListService(converter, repository, cardService);
     }
 
     @Test
@@ -36,7 +41,12 @@ public class CardListServiceTest {
 
     @Test
     void createCardList() {
-        CardList list = new CardList();
-        assertNull(service.createCardList(list));
+        List<CardDto> list = new ArrayList<>();
+        CardList cardList = new CardList();
+
+        when(CardList.builder().build()).thenReturn(cardList);
+        when(repository.save(ArgumentMatchers.any(CardList.class))).thenReturn(cardList);
+
+        assertEquals(cardList, service.createCardList(list));
     }
 }

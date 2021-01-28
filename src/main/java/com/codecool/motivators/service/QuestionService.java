@@ -9,24 +9,23 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
     private final DtoConverterService converter;
     private final QuestionRepository repository;
     private final CardListService cardListService;
-    private final CardService cardService;
+    private final QuestionGroupService questionGroupService;
 
     public QuestionService(
             @Lazy DtoConverterService converter,
             QuestionRepository repository,
             @Lazy CardListService cardListService,
-            @Lazy CardService cardService) {
+            @Lazy QuestionGroupService questionGroupService) {
         this.converter = converter;
         this.repository = repository;
         this.cardListService = cardListService;
-        this.cardService = cardService;
+        this.questionGroupService = questionGroupService;
     }
 
     public QuestionDto getQuestionDtoById(Long id) {
@@ -36,11 +35,8 @@ public class QuestionService {
     public List<CardDto> setAnswer(Long questionId, List<CardDto> cards) {
         Question question = repository.getOne(questionId);
         if (!question.isClosed()) {
-            CardList cardList = CardList.builder()
-                    .cards(cards.stream().map(cardDto -> cardService.getOneById(cardDto.getId())).collect(Collectors.toList()))
-                    .build();
+            CardList cardList = cardListService.createCardList(cards);
             question.setAnswer(cardList);
-            cardListService.createCardList(cardList);
         }
         repository.save(question);
         return converter.convertCardList(repository.getOne(questionId).getAnswer());
@@ -64,5 +60,14 @@ public class QuestionService {
 
     public void deleteQuestion(Long id) {
         repository.deleteById(id);
+    }
+
+    public QuestionDto createQuestion (QuestionDto questionDto) {
+        Question question = Question.builder()
+                .group(questionGroupService.getQuestionGroupById(questionDto.getGroupId()))
+                .value(questionDto.getValue())
+                .build();
+        question = repository.save(question);
+        return converter.convertQuestion(repository.getOne(question.getId()));
     }
 }

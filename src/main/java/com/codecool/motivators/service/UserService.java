@@ -1,5 +1,6 @@
 package com.codecool.motivators.service;
 
+import com.codecool.motivators.model.User;
 import com.codecool.motivators.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -12,5 +13,9 @@ public class UserService {
     public UserService(@Lazy DtoConverterService converter, UserRepository repository) {
         this.converter = converter;
         this.repository = repository;
+    }
+
+    public User getUserById(Long id) {
+        return repository.getOne(id);
     }
 }

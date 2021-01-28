@@ -12,6 +12,8 @@ public class MotivatorsApplication {
     // TODO: 2021. 01. 27. notification implementation
     // TODO: 2021. 01. 27. add company field to user
     // TODO: 2021. 01. 27. implement user checking in service layer after security layer implementation
+    // TODO: 2021. 01. 27. add default Builder values to Dto-s
+    // TODO: 2021. 01. 27. filter question groups and questions by invites
     public static void main(String[] args) {
         SpringApplication.run(MotivatorsApplication.class, args);
     }

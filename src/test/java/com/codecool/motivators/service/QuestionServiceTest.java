@@ -20,15 +20,15 @@ class QuestionServiceTest {
     private QuestionService service;
     private DtoConverterService converter;
     private CardListService cardListService;
-    private CardService cardService;
+    private QuestionGroupService questionGroupService;
 
     @BeforeEach
     void setUp() {
         this.repository = mock(QuestionRepository.class);
         this.converter = mock(DtoConverterService.class);
         this.cardListService = mock(CardListService.class);
-        this.cardService = mock(CardService.class);
-        this.service = new QuestionService(converter, repository, cardListService, cardService);
+        this.questionGroupService = mock(QuestionGroupService.class);
+        this.service = new QuestionService(converter, repository, cardListService, questionGroupService);
     }
 
     @Test
@@ -45,10 +45,10 @@ class QuestionServiceTest {
     void setAnswer() {
         List<CardDto> l = new ArrayList<>();
         Question q = new Question();
+        CardList cardList = new CardList();
 
         when(repository.getOne(1L)).thenReturn(q);
-        when(cardService.getOneById(1L)).thenReturn(null);
-        when(cardListService.createCardList(new CardList())).thenReturn(null);
+        when(cardListService.createCardList(l)).thenReturn(cardList);
 
         assertEquals(l, service.setAnswer(1L, l));
     }
@@ -95,5 +95,10 @@ class QuestionServiceTest {
         service.deleteQuestion(1L);
 
         verify(repository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void createQuestion() {
+        // TODO: 2021. 01. 27.
     }
 }
