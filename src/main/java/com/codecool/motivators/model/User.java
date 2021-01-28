@@ -25,6 +25,8 @@ public class User {
     private String password;
     @Column(nullable = false)
     private String position;
+    @Column(nullable = false)
+    private String company;
     @OneToMany
     @Builder.Default
     private Set<QuestionGroup> groups = new HashSet<>();
