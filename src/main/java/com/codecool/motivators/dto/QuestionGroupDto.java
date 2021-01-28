@@ -15,6 +15,5 @@ public class QuestionGroupDto {
     private Long id;
     private String value;
     private List<Long> questionIds;
-    private List<Long> invitedIds;
     private Long ownerId;
 }

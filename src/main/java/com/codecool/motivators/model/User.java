@@ -25,12 +25,14 @@ public class User {
     private String password;
     @Column(nullable = false)
     private String position;
+    @Column(nullable = false)
+    private String company;
     @OneToMany
     @Builder.Default
     private Set<QuestionGroup> groups = new HashSet<>();
-    @ElementCollection
+    @OneToMany
     @Builder.Default
-    private Map<CardList, Date> defaults = new HashMap<>();
+    private List<CardList> defaultLists = new ArrayList<>();
 
     public void addGroup (QuestionGroup group) {
         this.groups.add(group);
@@ -41,15 +43,15 @@ public class User {
     }
 
     public void addDefault (CardList list) {
-        Date date = new Date();
-        defaults.put(list, date);
+        this.defaultLists.add(list);
     }
 
     public void removeDefault (CardList list) {
-        this.defaults.remove(list);
+        this.defaultLists.remove(list);
     }
 
     public CardList getNewestDefault () {
-        return Collections.max(this.defaults.entrySet(), Map.Entry.comparingByValue()).getKey();
+        this.defaultLists.sort(Comparator.comparing(CardList::getCreatedOn));
+        return this.defaultLists.get(1);
     }
 }

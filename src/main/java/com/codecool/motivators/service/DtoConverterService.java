@@ -4,6 +4,7 @@ import com.codecool.motivators.dto.*;
 import com.codecool.motivators.model.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,11 +20,8 @@ public class DtoConverterService {
                 .build();
     }
 
-    public CardListDto convertCardList (CardList list) {
-        return CardListDto.builder()
-                .id(list.getId())
-                .cardIds(list.getCards().stream().map(Card::getId).collect(Collectors.toList()))
-                .build();
+    public List<CardDto> convertCardList (CardList list) {
+        return list.getCards().stream().map(this::convertCard).collect(Collectors.toList());
     }
 
     public QuestionDto convertQuestion (Question question) {
@@ -42,7 +40,6 @@ public class DtoConverterService {
                 .id(questionGroup.getId())
                 .ownerId(questionGroup.getOwner().getId())
                 .value(questionGroup.getValue())
-                .invitedIds(questionGroup.getInvited().stream().map(User::getId).collect(Collectors.toList()))
                 .questionIds(questionGroup.getQuestions().stream().map(Question::getId).collect(Collectors.toList()))
                 .build();
     }
@@ -52,8 +49,9 @@ public class DtoConverterService {
                 .id(user.getId())
                 .name(user.getName())
                 .position(user.getPosition())
+                .company(user.getCompany())
                 .defaultCardListId(user.getNewestDefault().getId())
-                .cardListIds(user.getDefaults().keySet().stream().map(CardList::getId).collect(Collectors.toList()))
+                .olderCardListsIds(user.getDefaultLists().stream().map(CardList::getId).collect(Collectors.toList()))
                 .groupIds(user.getGroups().stream().map(QuestionGroup::getId).collect(Collectors.toList()))
                 .build();
     }
