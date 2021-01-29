@@ -55,4 +55,13 @@ public class DtoConverterService {
                 .groupIds(user.getGroups().stream().map(QuestionGroup::getId).collect(Collectors.toList()))
                 .build();
     }
+
+    public NotificationDto convertNotification(Notification notification) {
+        return NotificationDto.builder()
+                .id(notification.getId())
+                .ownerId(notification.getOwner().getId())
+                .senderId(notification.getSender().getId())
+                .groupId(notification.getQuestionGroup().getId())
+                .build();
+    }
 }
