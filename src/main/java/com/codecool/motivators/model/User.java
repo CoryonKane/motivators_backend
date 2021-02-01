@@ -33,6 +33,12 @@ public class User {
     @OneToMany
     @Builder.Default
     private List<CardList> defaultLists = new ArrayList<>();
+    @OneToMany
+    @Builder.Default
+    private Set<Notification> sentNotification = new HashSet<>();
+    @OneToMany
+    @Builder.Default
+    private Set<Notification> receivedNotification = new HashSet<>();
 
     public void addGroup (QuestionGroup group) {
         this.groups.add(group);

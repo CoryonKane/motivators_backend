@@ -33,11 +33,6 @@ public class QuestionGroupController {
         return service.viewInvited(id);
     }
 
-    @PutMapping("{id}/invited")
-    public QuestionGroupDto acceptInvite (@PathVariable("id") Long id, @RequestBody QuestionGroupDto questionGroupDto ) {
-        return service.acceptInvite(id, questionGroupDto);
-    }
-
     @PutMapping("{id}")
     public String editName (@PathVariable("id") Long id, @RequestBody String name) {
         return service.editName(id, name);

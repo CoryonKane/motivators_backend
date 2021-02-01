@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,4 +29,5 @@ public class Question {
     private boolean closed = false;
     @ManyToOne(optional = false)
     private QuestionGroup group;
+    private Date date;
 }

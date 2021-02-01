@@ -32,6 +32,7 @@ public class DtoConverterService {
                 .groupId(question.getGroup().getId())
                 .note(question.getNote())
                 .value(question.getValue())
+                .date(question.getDate())
                 .build();
     }
 
@@ -53,6 +54,15 @@ public class DtoConverterService {
                 .defaultCardListId(user.getNewestDefault().getId())
                 .olderCardListsIds(user.getDefaultLists().stream().map(CardList::getId).collect(Collectors.toList()))
                 .groupIds(user.getGroups().stream().map(QuestionGroup::getId).collect(Collectors.toList()))
+                .build();
+    }
+
+    public NotificationDto convertNotification(Notification notification) {
+        return NotificationDto.builder()
+                .id(notification.getId())
+                .ownerId(notification.getOwner().getId())
+                .senderId(notification.getSender().getId())
+                .groupId(notification.getQuestionGroup().getId())
                 .build();
     }
 }
