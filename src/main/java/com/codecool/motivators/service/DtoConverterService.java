@@ -32,6 +32,7 @@ public class DtoConverterService {
                 .groupId(question.getGroup().getId())
                 .note(question.getNote())
                 .value(question.getValue())
+                .date(question.getDate())
                 .build();
     }
 

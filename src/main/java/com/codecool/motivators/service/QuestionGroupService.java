@@ -51,11 +51,6 @@ public class QuestionGroupService {
         return questionGroup.getInvited().stream().map(converter::convertUser).collect(Collectors.toList());
     }
 
-    public QuestionGroupDto acceptInvite(Long id, QuestionGroupDto questionGroupDto) {
-        // TODO: 2021. 01. 28. needs security layer
-        return null;
-    }
-
     public String editName(Long id, String name) {
         QuestionGroup questionGroup = repository.getOne(id);
         questionGroup.setValue(name);

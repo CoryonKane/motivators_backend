@@ -1,6 +1,7 @@
 package com.codecool.motivators.controller;
 
 import com.codecool.motivators.dto.CardDto;
+import com.codecool.motivators.dto.NotificationDto;
 import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.dto.UserDto;
 import com.codecool.motivators.service.UserService;
@@ -21,11 +22,6 @@ public class UserController {
     @GetMapping("{id}")
     public UserDto getUser (@PathVariable("id") Long id) {
         return service.getUserDtoById(id);
-    }
-
-    @PutMapping("{id}/invite")
-    public void addInvite (@PathVariable("id") Long id, @RequestBody QuestionGroupDto questionGroupDto) {
-        service.addInvite(id, questionGroupDto);
     }
 
     @PutMapping("{id}/save-default")

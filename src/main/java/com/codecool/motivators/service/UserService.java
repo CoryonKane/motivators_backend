@@ -1,9 +1,11 @@
 package com.codecool.motivators.service;
 
 import com.codecool.motivators.dto.CardDto;
+import com.codecool.motivators.dto.NotificationDto;
 import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.dto.UserDto;
 import com.codecool.motivators.model.CardValueType;
+import com.codecool.motivators.model.Notification;
 import com.codecool.motivators.model.User;
 import com.codecool.motivators.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
@@ -21,7 +23,8 @@ public class UserService {
     public UserService(
             @Lazy DtoConverterService converter,
             UserRepository repository,
-            @Lazy CardListService cardListService) {
+            @Lazy CardListService cardListService,
+            @Lazy NotificationService notificationService) {
         this.converter = converter;
         this.repository = repository;
         this.cardListService = cardListService;
@@ -37,10 +40,6 @@ public class UserService {
 
     public UserDto getUserDtoById(Long id) {
         return converter.convertUser(getUserById(id));
-    }
-
-    public void addInvite(Long id, QuestionGroupDto questionGroupDto) {
-        // TODO: 2021. 01. 28.
     }
 
     public List<CardDto> addDefault(Long id, List<CardDto> list) {

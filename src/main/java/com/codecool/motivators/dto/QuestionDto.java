@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -19,4 +21,5 @@ public class QuestionDto {
     private String note;
     private boolean closed;
     private Long groupId;
+    private Date date;
 }

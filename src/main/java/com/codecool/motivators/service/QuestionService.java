@@ -8,6 +8,7 @@ import com.codecool.motivators.repository.QuestionRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -71,6 +72,7 @@ public class QuestionService {
         Question question = Question.builder()
                 .group(questionGroupService.getQuestionGroupById(questionDto.getGroupId()))
                 .value(questionDto.getValue())
+                .date(new Date())
                 .build();
         return converter.convertQuestion(saveQuestion(question));
     }
