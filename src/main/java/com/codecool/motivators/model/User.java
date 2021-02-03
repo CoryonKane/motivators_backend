@@ -1,9 +1,6 @@
 package com.codecool.motivators.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
@@ -39,6 +36,10 @@ public class User {
     @OneToMany
     @Builder.Default
     private Set<Notification> receivedNotification = new HashSet<>();
+    @ElementCollection
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
+    private List<String> roles = new ArrayList<>();
 
     public void addGroup (QuestionGroup group) {
         this.groups.add(group);
