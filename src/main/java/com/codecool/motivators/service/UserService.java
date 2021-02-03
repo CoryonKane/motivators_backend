@@ -38,12 +38,16 @@ public class UserService {
         return repository.getOne(id);
     }
 
-    public User saveUser(User user) {
-        return repository.save(user);
+    public User getUserByEmail (String email) {
+        return repository.findByEmail(email).orElse(null);
     }
 
     public UserDto getUserDtoById(Long id) {
         return converter.convertUser(getUserById(id));
+    }
+
+    public User saveUser(User user) {
+        return repository.save(user);
     }
 
     public List<CardDto> addDefault(Long id, List<CardDto> list) {
@@ -68,11 +72,15 @@ public class UserService {
 
     public UserDto registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (repository.findByEmail(user.getEmail()).isEmpty()) {
+        if (getUserByEmail(user.getEmail()) == null) {
             user.setId(null);
             return converter.convertUser(saveUser(user));
         } else {
             return null;
         }
+    }
+
+    public UserDto getUserDtoByEmail(String dataEmail) {
+        return converter.convertUser(getUserByEmail(dataEmail));
     }
 }
