@@ -9,6 +9,8 @@ import com.codecool.motivators.model.Notification;
 import com.codecool.motivators.model.User;
 import com.codecool.motivators.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class UserService {
     private final DtoConverterService converter;
     private final UserRepository repository;
     private final CardListService cardListService;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(
             @Lazy DtoConverterService converter,
@@ -28,6 +31,7 @@ public class UserService {
         this.converter = converter;
         this.repository = repository;
         this.cardListService = cardListService;
+        this.passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     public User getUserById(Long id) {
@@ -60,5 +64,15 @@ public class UserService {
         user.setPosition(userDto.getPosition());
         user.setCompany(userDto.getCompany());
         return converter.convertUser(saveUser(user));
+    }
+
+    public UserDto registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (repository.findByEmail(user.getEmail()).isEmpty()) {
+            user.setId(null);
+            return converter.convertUser(saveUser(user));
+        } else {
+            return null;
+        }
     }
 }
