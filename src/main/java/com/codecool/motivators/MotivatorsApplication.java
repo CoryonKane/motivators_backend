@@ -27,21 +27,4 @@ public class MotivatorsApplication {
         SpringApplication.run(MotivatorsApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner init() {
-        return args -> {
-            passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-            String psw = passwordEncoder.encode("test");
-            User test = User.builder()
-                    .id(0L)
-                    .company("Codecool")
-                    .position("student")
-                    .email("test@test.com")
-                    .name("test")
-                    .password(psw)
-                    .build();
-            userRepository.save(test);
-        };
-    }
-
 }
