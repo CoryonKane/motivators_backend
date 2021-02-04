@@ -1,11 +1,8 @@
 package com.codecool.motivators.service;
 
 import com.codecool.motivators.dto.CardDto;
-import com.codecool.motivators.dto.NotificationDto;
-import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.dto.UserDto;
 import com.codecool.motivators.model.CardValueType;
-import com.codecool.motivators.model.Notification;
 import com.codecool.motivators.model.User;
 import com.codecool.motivators.repository.UserRepository;
 import org.springframework.context.annotation.Lazy;
@@ -26,8 +23,7 @@ public class UserService {
     public UserService(
             @Lazy DtoConverterService converter,
             UserRepository repository,
-            @Lazy CardListService cardListService,
-            @Lazy NotificationService notificationService) {
+            @Lazy CardListService cardListService) {
         this.converter = converter;
         this.repository = repository;
         this.cardListService = cardListService;
@@ -50,8 +46,8 @@ public class UserService {
         return repository.save(user);
     }
 
-    public List<CardDto> addDefault(Long id, List<CardDto> list) {
-        User user = getUserById(id);
+    public List<CardDto> addDefault(String email, List<CardDto> list) {
+        User user = getUserByEmail(email);
         list.forEach(cardDto -> cardDto.setValue(CardValueType.NEUTRAL));
         user.addDefault(cardListService.createCardList(list));
         return converter.convertCardList(saveUser(user).getNewestDefault());
@@ -62,8 +58,8 @@ public class UserService {
         return list.stream().map(converter::convertUser).collect(Collectors.toList());
     }
 
-    public UserDto editUser(UserDto userDto) {
-        User user = getUserById(userDto.getId());
+    public UserDto editUser(UserDto userDto, String email) {
+        User user = getUserByEmail(email);
         user.setName(userDto.getName());
         user.setPosition(userDto.getPosition());
         user.setCompany(userDto.getCompany());

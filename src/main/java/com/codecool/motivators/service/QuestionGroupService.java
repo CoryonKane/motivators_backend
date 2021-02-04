@@ -7,6 +7,7 @@ import com.codecool.motivators.model.QuestionGroup;
 import com.codecool.motivators.model.User;
 import com.codecool.motivators.repository.QuestionGroupRepository;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,37 +31,48 @@ public class QuestionGroupService {
         this.userService = userService;
     }
 
-    public QuestionGroupDto getQuestionGroupDtoById(Long id) {
-        return converter.convertQuestionGroup(getQuestionGroupById(id));
+    public QuestionGroupDto getQuestionGroupDtoById(Long id, String email) {
+        QuestionGroup questionGroup = getQuestionGroupById(id);
+        User sessionUser = userService.getUserByEmail(email);
+        if (sessionUser.equals(questionGroup.getOwner()) || questionGroup.hasInvited(sessionUser)) {
+            return converter.convertQuestionGroup(getQuestionGroupById(id));
+        } else throw new BadCredentialsException("Invalid user.");
     }
 
     public QuestionGroup getQuestionGroupById(Long id) {
         return repository.getOne(id);
     }
 
-    public QuestionGroupDto createQuestionGroup(QuestionGroupDto questionGroupDto) {
+    public QuestionGroupDto createQuestionGroup(String name, String email) {
         QuestionGroup questionGroup = QuestionGroup.builder()
-                .owner(userService.getUserById(questionGroupDto.getOwnerId()))
+                .value(name)
+                .owner(userService.getUserByEmail(email))
                 .build();
         repository.save(questionGroup);
         return converter.convertQuestionGroup(questionGroup);
     }
 
-    public List<UserDto> viewInvited(Long id) {
+    public List<UserDto> viewInvited(Long id, String email) {
         QuestionGroup questionGroup = repository.getOne(id);
-        return questionGroup.getInvited().stream().map(converter::convertUser).collect(Collectors.toList());
+        User sessionUser = userService.getUserByEmail(email);
+        if (sessionUser.equals(questionGroup.getOwner())) {
+            return questionGroup.getInvited().stream().map(converter::convertUser).collect(Collectors.toList());
+        } else throw new BadCredentialsException("Invalid user.");
     }
 
-    public String editName(Long id, String name) {
+    public String editName(Long id, String name, String email) {
         QuestionGroup questionGroup = repository.getOne(id);
-        questionGroup.setValue(name);
-        return repository.save(questionGroup).getValue();
+        if (userService.getUserByEmail(email).equals(questionGroup.getOwner())) {
+            questionGroup.setValue(name);
+            return repository.save(questionGroup).getValue();
+        } else throw new BadCredentialsException("Invalid user.");
     }
 
-    public UserDto deleteQuestionGroup(Long id) {
-        QuestionGroup questionGroup = repository.getOne(id);            // TODO: 2021. 01. 28. can be deleted after security
-        User user = questionGroup.getOwner();
-        repository.delete(questionGroup);
-        return converter.convertUser(user);
+    public UserDto deleteQuestionGroup(Long id, String email) {
+        User sessionUser = userService.getUserByEmail(email);
+        if (sessionUser.equals(getQuestionGroupById(id).getOwner())) {
+            repository.deleteById(id);
+            return converter.convertUser(sessionUser);
+        } else throw new BadCredentialsException("Invalid user.");
     }
 }
