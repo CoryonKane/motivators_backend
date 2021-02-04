@@ -47,18 +47,21 @@ class QuestionServiceTest {
         Question q = new Question();
         CardList cardList = new CardList();
 
-        when(repository.getOne(1L)).thenReturn(q);
+        when(service.getQuestionById(1L)).thenReturn(q);
         when(cardListService.createCardList(l)).thenReturn(cardList);
+        when(service.saveQuestion(q)).thenReturn(q);
 
         assertEquals(l, service.setAnswer(1L, l));
     }
 
     @Test
     void editNote() {
-        String note = "";
+        String note = "1";
         Question q = new Question();
 
-        when(repository.getOne(1L)).thenReturn(q);
+        q.setClosed(false);
+        when(service.getQuestionById(1L)).thenReturn(q);
+        when(service.saveQuestion(q)).thenReturn(q);
 
         assertEquals(note, service.editNote(1L, note));
     }
@@ -67,22 +70,24 @@ class QuestionServiceTest {
     void closeQuestion() {
         Question q = new Question();
 
-        when(repository.getOne(1L)).thenReturn(q);
+        when(service.getQuestionById(1L)).thenReturn(q);
         when(converter.convertQuestion(q)).thenReturn(QuestionDto.builder().closed(q.isClosed()).build());
+        when(service.saveQuestion(q)).thenReturn(q);
 
         assertFalse(service.closeQuestion(1L).isClosed());
     }
 
     @Test
     void testNotEditableQuestion () {
-        Question q = new Question();
-        String note1 = "1";
+        Question q = Question.builder()
+                .note("1")
+                .closed(true)
+                .build();
+        System.out.println(q);
+        when(service.getQuestionById(1L)).thenReturn(q);
+        when(service.saveQuestion(q)).thenReturn(q);
 
-        q.setClosed(true);
-        q.setNote("");
-        when(repository.getOne(1L)).thenReturn(q);
-
-        assertEquals("", service.editNote(1L, note1));
+        assertEquals("1", service.editNote(1L, "2"));
     }
 
     @Test

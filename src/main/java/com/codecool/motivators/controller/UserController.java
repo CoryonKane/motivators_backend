@@ -1,10 +1,12 @@
 package com.codecool.motivators.controller;
 
 import com.codecool.motivators.dto.CardDto;
+import com.codecool.motivators.dto.NotificationDto;
 import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.dto.UserDto;
 import com.codecool.motivators.service.UserService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,14 +25,10 @@ public class UserController {
         return service.getUserDtoById(id);
     }
 
-    @PutMapping("{id}/invite")
-    public void addInvite (@PathVariable("id") Long id, @RequestBody QuestionGroupDto questionGroupDto) {
-        service.addInvite(id, questionGroupDto);
-    }
-
-    @PutMapping("{id}/save-default")
-    public List<CardDto> saveDefault (@PathVariable("id") Long id, @RequestBody List<CardDto> list) {
-        return service.addDefault(id, list);
+    @PutMapping("save-default")
+    public List<CardDto> saveDefault (@RequestBody List<CardDto> list) {
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.addDefault(sessionUserEmail, list);
     }
 
     @GetMapping("/search")
@@ -40,6 +38,7 @@ public class UserController {
 
     @PutMapping("")
     public UserDto editUser (@RequestBody UserDto userDto) {
-        return service.editUser(userDto);
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.editUser(userDto, sessionUserEmail);
     }
 }
