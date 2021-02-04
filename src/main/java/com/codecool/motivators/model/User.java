@@ -1,5 +1,6 @@
 package com.codecool.motivators.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,15 +26,19 @@ public class User {
     @Column(nullable = false)
     private String company;
     @OneToMany
+    @JsonIgnore
     @Builder.Default
     private Set<QuestionGroup> groups = new HashSet<>();
     @OneToMany
+    @JsonIgnore
     @Builder.Default
     private List<CardList> defaultLists = new ArrayList<>();
     @OneToMany
+    @JsonIgnore
     @Builder.Default
     private Set<Notification> sentNotification = new HashSet<>();
     @OneToMany
+    @JsonIgnore
     @Builder.Default
     private Set<Notification> receivedNotification = new HashSet<>();
     @ElementCollection
@@ -57,8 +62,9 @@ public class User {
         this.defaultLists.remove(list);
     }
 
+    @JsonIgnore
     public CardList getNewestDefault () {
         this.defaultLists.sort(Comparator.comparing(CardList::getCreatedOn));
-        return this.defaultLists.get(1);
+        return this.defaultLists.size() == 0 ? null : this.defaultLists.get(1);
     }
 }

@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.aspectj.weaver.ast.Not;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +31,8 @@ public class QuestionGroup {
     private Set<User> invited = new HashSet<>();
     @ManyToOne(optional = false)
     private User owner;
+    @OneToMany
+    private List<Notification> notifications = new ArrayList<>();
 
     public void addQuestion (Question question) {
         this.questions.add(question);

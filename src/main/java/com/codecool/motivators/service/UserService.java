@@ -10,6 +10,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,10 +69,15 @@ public class UserService {
     }
 
     public UserDto registerUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (getUserByEmail(user.getEmail()) == null) {
-            user.setId(null);
-            return converter.convertUser(saveUser(user));
+            User newUser = User.builder()
+                    .password(passwordEncoder.encode(user.getPassword()))
+                    .name(user.getName())
+                    .email(user.getEmail())
+                    .position(user.getPosition())
+                    .company(user.getCompany())
+                    .build();
+            return converter.convertUser(saveUser(newUser));
         } else {
             return null;
         }
