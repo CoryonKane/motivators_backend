@@ -7,6 +7,7 @@ import com.codecool.motivators.model.QuestionGroup;
 import com.codecool.motivators.model.User;
 import com.codecool.motivators.repository.NotificationRepository;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,42 +47,48 @@ public class NotificationService {
         return repository.save(notification);
     }
 
-    public void newInvite(Long senderId, Long receiverId, QuestionGroupDto questionGroupDto) {
+    public void newInvite(String email, Long receiverId, QuestionGroupDto questionGroupDto) {
         Notification notification = Notification.builder()
-                .sender(userService.getUserById(senderId))
+                .sender(userService.getUserByEmail(email))
                 .owner(userService.getUserById(receiverId))
                 .questionGroup(questionGroupService.getQuestionGroupById(questionGroupDto.getId()))
                 .build();
         saveNotification(notification);
     }
 
-    public List<NotificationDto> getReceivedNotifications(Long userId) {
+    public List<NotificationDto> getReceivedNotifications(String userEmail) {
         return userService
-                .getUserById(userId)
+                .getUserByEmail(userEmail)
                 .getReceivedNotification()
                 .stream()
                 .map(converter::convertNotification)
                 .collect(Collectors.toList());
     }
 
-    public List<NotificationDto> getSentNotifications(Long userId) {
+    public List<NotificationDto> getSentNotifications(String userEmail) {
         return userService
-                .getUserById(userId)
+                .getUserByEmail(userEmail)
                 .getSentNotification()
                 .stream()
                 .map(converter::convertNotification)
                 .collect(Collectors.toList());
     }
 
-    public QuestionGroupDto acceptInvite(NotificationDto notificationDto) {
+    public QuestionGroupDto acceptInvite(NotificationDto notificationDto, String email) {
+        User receiver = userService.getUserByEmail(email);
         Notification notification = getNotificationById(notificationDto.getId());
         QuestionGroup questionGroup = notification.getQuestionGroup();
-        questionGroup.addInvited(notification.getOwner());
-        deleteNotificationById(notification.getId());
-        return converter.convertQuestionGroup(questionGroup);
+        if (receiver.equals(notification.getOwner())) {
+            questionGroup.addInvited(notification.getOwner());
+            deleteNotificationById(notification.getId());
+            return converter.convertQuestionGroup(questionGroup);
+        } else throw new BadCredentialsException("Invalid user.");
     }
 
-    public void declineInvitation(NotificationDto notificationDto) {
-        deleteNotificationById(notificationDto.getId());
+    public void declineInvitation(NotificationDto notificationDto, String email) {
+        if (userService.getUserByEmail(email).equals(userService.getUserById(notificationDto.getOwnerId())) ||
+                userService.getUserByEmail(email).equals(userService.getUserById(notificationDto.getSenderId()))) {
+            deleteNotificationById(notificationDto.getId());
+        } else throw new BadCredentialsException("Invalid user.");
     }
 }

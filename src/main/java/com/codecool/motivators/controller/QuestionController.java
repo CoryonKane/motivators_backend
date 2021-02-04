@@ -5,6 +5,7 @@ import com.codecool.motivators.dto.QuestionDto;
 import com.codecool.motivators.service.QuestionService;
 import org.hibernate.sql.Delete;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,27 +21,32 @@ public class QuestionController {
 
     @GetMapping("{id}")
     public QuestionDto getQuestion (@PathVariable("id") Long id) {
-        return service.getQuestionDtoById(id);
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getQuestionDtoById(id, sessionUserEmail);
     }
 
     @PostMapping("{id}/answer")
     public List<CardDto> setAnswer (@PathVariable("id") Long questionId, @RequestBody List<CardDto> cards) {
-        return service.setAnswer(questionId, cards);
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.setAnswer(questionId, cards, sessionUserEmail);
     }
 
     @PutMapping("{id}/note")
     public String editNote (@PathVariable("id") Long id, @RequestBody String note) {
-        return service.editNote(id, note);
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.editNote(id, note, sessionUserEmail);
     }
 
     @PutMapping("{id}/close")
     public QuestionDto closeQuestion (@PathVariable("id") Long id) {
-        return service.closeQuestion(id);
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.closeQuestion(id, sessionUserEmail);
     }
 
     @DeleteMapping("{id}")
     public void deleteQuestion (@PathVariable("id") Long id) {
-        service.deleteQuestion(id);
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        service.deleteQuestion(id, sessionUserEmail);
     }
 
     @PostMapping("")

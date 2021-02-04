@@ -4,6 +4,7 @@ import com.codecool.motivators.dto.NotificationDto;
 import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.service.NotificationService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,28 +18,33 @@ public class NotificationController {
         this.service = service;
     }
 
-    @GetMapping("received/{userId}")
-    public List<NotificationDto> getReceivedNotifications (@PathVariable("userId") Long userId) {
-        return service.getReceivedNotifications(userId);
+    @GetMapping("received/")
+    public List<NotificationDto> getReceivedNotifications () {
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getReceivedNotifications(sessionUserEmail);
     }
 
-    @GetMapping("sent/{userId}")
-    public List<NotificationDto> getSentNotifications (@PathVariable("userId") Long userId) {
-        return service.getSentNotifications(userId);
+    @GetMapping("sent/")
+    public List<NotificationDto> getSentNotifications () {
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getSentNotifications(sessionUserEmail);
     }
 
-    @PostMapping("new/{senderId}/{receiverId}")
-    public void newInvite (@PathVariable("senderId") Long senderId, @PathVariable("receiverId") Long receiverId, @RequestBody QuestionGroupDto questionGroupDto) {
-        service.newInvite(senderId, receiverId, questionGroupDto);
+    @PostMapping("new/{receiverId}")
+    public void newInvite (@PathVariable("receiverId") Long receiverId, @RequestBody QuestionGroupDto questionGroupDto) {
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        service.newInvite(sessionUserEmail, receiverId, questionGroupDto);
     }
 
     @PutMapping("accept")
     public QuestionGroupDto acceptInvite (@RequestBody NotificationDto notificationDto) {
-        return service.acceptInvite (notificationDto);
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.acceptInvite (notificationDto, sessionUserEmail);
     }
 
     @DeleteMapping("decline")
     public void declineInvite (@RequestBody NotificationDto notificationDto) {
-        service.declineInvitation(notificationDto);
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        service.declineInvitation(notificationDto, sessionUserEmail);
     }
 }
