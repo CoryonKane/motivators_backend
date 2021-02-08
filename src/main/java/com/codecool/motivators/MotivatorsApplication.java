@@ -20,9 +20,7 @@ public class MotivatorsApplication {
     PasswordEncoder passwordEncoder;
 
     // TODO: 2021. 01. 26. add readme before v1.0
-    // TODO: 2021. 01. 27. implement user checking in service layer after security layer implementation
-    // TODO: 2021. 01. 27. filter question groups and questions by invites
-    // TODO: 2021. 02. 01. add cascade types
+    // TODO: 2021. 02. 04. delete user api
     public static void main(String[] args) {
         SpringApplication.run(MotivatorsApplication.class, args);
     }

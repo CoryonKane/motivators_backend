@@ -1,6 +1,5 @@
 package com.codecool.motivators.controller;
 
-import com.codecool.motivators.dto.QuestionDto;
 import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.dto.UserDto;
 import com.codecool.motivators.service.QuestionGroupService;
@@ -12,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("question-group/")
+@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class QuestionGroupController {
     private final QuestionGroupService service;
 

@@ -3,7 +3,6 @@ package com.codecool.motivators.controller;
 import com.codecool.motivators.dto.CardDto;
 import com.codecool.motivators.dto.QuestionDto;
 import com.codecool.motivators.service.QuestionService;
-import org.hibernate.sql.Delete;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("question/")
+@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class QuestionController {
     private final QuestionService service;
 
