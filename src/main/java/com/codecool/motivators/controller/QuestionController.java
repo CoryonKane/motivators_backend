@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("question/")
-@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class QuestionController {
     private final QuestionService service;
 

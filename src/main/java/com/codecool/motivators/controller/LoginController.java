@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("login/")
-@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class LoginController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenServices jwtTokenServices;

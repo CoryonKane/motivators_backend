@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("user/")
-@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class UserController {
     private final UserService service;
 

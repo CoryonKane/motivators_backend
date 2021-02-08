@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("card-list")
-@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class CardListController {
     private final CardListService service;
 
