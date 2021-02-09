@@ -40,7 +40,7 @@ public class NotificationController {
     @PutMapping("accept")
     public QuestionGroupDto acceptInvite (@RequestBody NotificationDto notificationDto) {
         String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        return service.acceptInvite (notificationDto, sessionUserEmail);
+        return service.acceptInvite(notificationDto, sessionUserEmail);
     }
 
     @DeleteMapping("decline")

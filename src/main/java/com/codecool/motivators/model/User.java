@@ -28,20 +28,25 @@ public class User {
     @OneToMany
     @JsonIgnore
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private Set<QuestionGroup> groups = new HashSet<>();
     @OneToMany
     @JsonIgnore
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private List<CardList> defaultLists = new ArrayList<>();
     @OneToMany
     @JsonIgnore
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private Set<Notification> sentNotification = new HashSet<>();
     @OneToMany
     @JsonIgnore
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private Set<Notification> receivedNotification = new HashSet<>();
     @ElementCollection
+    @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private List<String> roles = new ArrayList<>();
@@ -66,5 +71,21 @@ public class User {
     public CardList getNewestDefault () {
         this.defaultLists.sort(Comparator.comparing(CardList::getCreatedOn));
         return this.defaultLists.size() == 0 ? null : this.defaultLists.get(1);
+    }
+
+    public void addSentNotification (Notification notification) {
+        this.sentNotification.add(notification);
+    }
+
+    public void removeSentNotification (Notification notification) {
+        this.sentNotification.remove(notification);
+    }
+
+    public void addReceivedNotification (Notification notification) {
+        this.receivedNotification.add(notification);
+    }
+
+    public void removeReceivedNotification (Notification notification) {
+        this.receivedNotification.remove(notification);
     }
 }

@@ -1,14 +1,8 @@
 package com.codecool.motivators.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,9 +14,12 @@ public class Notification {
     @GeneratedValue
     private Long id;
     @ManyToOne(optional = false)
+    @EqualsAndHashCode.Exclude
     private User sender;
     @ManyToOne(optional = false)
+    @EqualsAndHashCode.Exclude
     private User owner;
     @ManyToOne(optional = false)
+    @EqualsAndHashCode.Exclude
     private QuestionGroup questionGroup;
 }

@@ -1,9 +1,6 @@
 package com.codecool.motivators.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.aspectj.weaver.ast.Not;
 
 import javax.persistence.*;
@@ -25,13 +22,17 @@ public class QuestionGroup {
     private String value;
     @OneToMany
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private Set<Question> questions = new HashSet<>();
     @OneToMany
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private Set<User> invited = new HashSet<>();
     @ManyToOne(optional = false)
+    @EqualsAndHashCode.Exclude
     private User owner;
     @OneToMany
+    @EqualsAndHashCode.Exclude
     private List<Notification> notifications = new ArrayList<>();
 
     public void addQuestion (Question question) {
