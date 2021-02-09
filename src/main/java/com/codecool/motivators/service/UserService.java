@@ -69,7 +69,6 @@ public class UserService {
     }
 
     public UserDto registerUser(User user) {
-        if (getUserByEmail(user.getEmail()) == null) {
             User newUser = User.builder()
                     .password(passwordEncoder.encode(user.getPassword()))
                     .name(user.getName())
@@ -78,9 +77,6 @@ public class UserService {
                     .company(user.getCompany())
                     .build();
             return converter.convertUser(saveUser(newUser));
-        } else {
-            return null;
-        }
     }
 
     public UserDto getUserDtoByEmail(String dataEmail) {
