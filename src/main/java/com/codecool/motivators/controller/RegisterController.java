@@ -4,13 +4,11 @@ import com.codecool.motivators.dto.UserDto;
 import com.codecool.motivators.model.User;
 import com.codecool.motivators.service.UserService;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("register/")
+@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class RegisterController {
     private final UserService service;
 

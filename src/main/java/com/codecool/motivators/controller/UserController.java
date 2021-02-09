@@ -1,8 +1,6 @@
 package com.codecool.motivators.controller;
 
 import com.codecool.motivators.dto.CardDto;
-import com.codecool.motivators.dto.NotificationDto;
-import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.dto.UserDto;
 import com.codecool.motivators.service.UserService;
 import org.springframework.context.annotation.Lazy;
@@ -13,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("user/")
+@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class UserController {
     private final UserService service;
 

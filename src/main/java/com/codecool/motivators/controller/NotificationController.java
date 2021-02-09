@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("notification/")
+@CrossOrigin(origins = {"https://development-codecool-moving-motivators.netlify.app/", "https://codecool-moving-motivators.netlify.app/"})
 public class NotificationController {
     private final NotificationService service;
 
