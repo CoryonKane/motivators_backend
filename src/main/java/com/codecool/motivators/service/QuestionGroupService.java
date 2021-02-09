@@ -48,8 +48,8 @@ public class QuestionGroupService {
                 .value(name)
                 .owner(userService.getUserByEmail(email))
                 .build();
-        repository.save(questionGroup);
-        return converter.convertQuestionGroup(questionGroup);
+        userService.getUserByEmail(email).addGroup(questionGroup);
+        return converter.convertQuestionGroup(repository.save(questionGroup));
     }
 
     public List<UserDto> viewInvited(Long id, String email) {

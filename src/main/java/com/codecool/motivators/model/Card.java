@@ -1,9 +1,6 @@
 package com.codecool.motivators.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -25,5 +22,6 @@ public class Card {
     @Builder.Default
     private CardValueType value = CardValueType.NEUTRAL;
     @ManyToOne(optional = false)
+    @EqualsAndHashCode.Exclude
     private CardList list;
 }

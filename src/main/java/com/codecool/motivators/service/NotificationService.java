@@ -53,6 +53,8 @@ public class NotificationService {
                 .owner(userService.getUserById(receiverId))
                 .questionGroup(questionGroupService.getQuestionGroupById(questionGroupDto.getId()))
                 .build();
+        userService.getUserByEmail(email).addSentNotification(notification);
+        userService.getUserById(receiverId).addReceivedNotification(notification);
         saveNotification(notification);
     }
 
