@@ -1,9 +1,6 @@
 package com.codecool.motivators.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,11 +20,13 @@ public class Question {
     @Column(nullable = false)
     private String value;
     @OneToOne(optional = false)
+    @EqualsAndHashCode.Exclude
     private CardList answer;
     private String note;
     @Builder.Default
     private boolean closed = false;
     @ManyToOne(optional = false)
+    @EqualsAndHashCode.Exclude
     private QuestionGroup group;
     private Date date;
 }

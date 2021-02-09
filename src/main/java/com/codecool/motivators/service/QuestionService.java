@@ -87,6 +87,7 @@ public class QuestionService {
                 .value(questionDto.getValue())
                 .date(new Date())
                 .build();
+        question.getGroup().addQuestion(question);
         return converter.convertQuestion(saveQuestion(question));
     }
 }

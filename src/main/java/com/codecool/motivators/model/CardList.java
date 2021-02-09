@@ -18,6 +18,7 @@ public class CardList {
     private Long id;
     @OneToMany
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private List<Card> cards = new ArrayList<>();
     @Builder.Default
     private Date createdOn = new Date();
