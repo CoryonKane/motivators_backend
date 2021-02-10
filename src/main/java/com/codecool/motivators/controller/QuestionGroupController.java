@@ -25,7 +25,7 @@ public class QuestionGroupController {
         return service.getQuestionGroupDtoById(id, sessionUserEmail);
     }
 
-    @PostMapping("")
+    @PostMapping(value = "", consumes = "text/plain")
     public QuestionGroupDto createQuestionGroup (@RequestBody String name) {
         String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         return service.createQuestionGroup(name, sessionUserEmail);
@@ -37,7 +37,7 @@ public class QuestionGroupController {
         return service.viewInvited(id, sessionUserEmail);
     }
 
-    @PutMapping("{id}")
+    @PutMapping(value = "{id}", consumes = "text/plain")
     public String editName (@PathVariable("id") Long id, @RequestBody String name) {
         String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         return service.editName(id, name, sessionUserEmail);

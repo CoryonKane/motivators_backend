@@ -31,7 +31,7 @@ public class QuestionController {
         return service.setAnswer(questionId, cards, sessionUserEmail);
     }
 
-    @PutMapping("{id}/note")
+    @PutMapping(value = "{id}/note", consumes = "text/plain")
     public String editNote (@PathVariable("id") Long id, @RequestBody String note) {
         String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         return service.editNote(id, note, sessionUserEmail);
