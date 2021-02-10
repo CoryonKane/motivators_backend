@@ -2,6 +2,7 @@ package com.codecool.motivators.service;
 
 import com.codecool.motivators.dto.CardDto;
 import com.codecool.motivators.model.Card;
+import com.codecool.motivators.model.CardList;
 import com.codecool.motivators.repository.CardRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,14 @@ public class CardService {
 
     public Card getOneById(Long id) {
         return repository.getOne(id);
+    }
+
+    public Card createCard(CardDto cardDto, CardList cardList) {
+        return Card.builder()
+                .list(cardList)
+                .position(cardDto.getPosition())
+                .type(cardDto.getType())
+                .value(cardDto.getValue())
+                .build();
     }
 }

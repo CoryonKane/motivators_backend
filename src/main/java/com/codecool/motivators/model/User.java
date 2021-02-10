@@ -70,7 +70,7 @@ public class User {
     @JsonIgnore
     public CardList getNewestDefault () {
         this.defaultLists.sort(Comparator.comparing(CardList::getCreatedOn));
-        return this.defaultLists.size() == 0 ? null : this.defaultLists.get(1);
+        return this.defaultLists.size() == 0 ? null : this.defaultLists.get(0);
     }
 
     public void addSentNotification (Notification notification) {

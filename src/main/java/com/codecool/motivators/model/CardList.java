@@ -16,7 +16,7 @@ public class CardList {
     @Id
     @GeneratedValue
     private Long id;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private List<Card> cards = new ArrayList<>();

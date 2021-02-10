@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @AllArgsConstructor
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 public class UserDto {
     private Long id;
+    @NotNull
     private String name;
     private String position;
     private String company;

@@ -1,10 +1,7 @@
 package com.codecool.motivators.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.lang.Nullable;
+import lombok.*;
+import javax.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -14,12 +11,12 @@ import java.util.Date;
 @Data
 public class QuestionDto {
     private Long id;
+    @NotNull
     private String value;
-    @Nullable
     private Long answerId;
-    @Nullable
     private String note;
     private boolean closed;
+    @NotNull
     private Long groupId;
     private Date date;
 }

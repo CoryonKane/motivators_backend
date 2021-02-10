@@ -1,7 +1,6 @@
 package com.codecool.motivators.service;
 
 import com.codecool.motivators.dto.CardDto;
-import com.codecool.motivators.model.Card;
 import com.codecool.motivators.model.CardList;
 import com.codecool.motivators.repository.CardListRepository;
 import org.springframework.context.annotation.Lazy;
@@ -33,9 +32,9 @@ public class CardListService {
 
     public CardList createCardList(List<CardDto> cards) {
         CardList cardList = CardList.builder()
-                .cards(cards.stream().map(cardDto -> cardService.getOneById(cardDto.getId())).collect(Collectors.toList()))
                 .build();
         cardList.setCreatedOn(new Date());
+        cardList.setCards(cards.stream().map(cardDto -> cardService.createCard(cardDto, cardList)).collect(Collectors.toList()));
         return repository.save(cardList);
     }
 }
