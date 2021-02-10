@@ -27,7 +27,7 @@ public class DtoConverterService {
     public QuestionDto convertQuestion (Question question) {
         return QuestionDto.builder()
                 .id(question.getId())
-                .answerId(question.getAnswer().getId())
+                .answerId(question.getAnswer() == null ? null : question.getAnswer().getId())
                 .closed(question.isClosed())
                 .groupId(question.getGroup().getId())
                 .note(question.getNote())

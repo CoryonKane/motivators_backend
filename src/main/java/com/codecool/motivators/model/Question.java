@@ -19,7 +19,7 @@ public class Question {
     private Long id;
     @Column(nullable = false)
     private String value;
-    @OneToOne(optional = false)
+    @OneToOne
     @EqualsAndHashCode.Exclude
     private CardList answer;
     private String note;
