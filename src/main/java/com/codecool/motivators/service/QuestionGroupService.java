@@ -75,4 +75,8 @@ public class QuestionGroupService {
             return converter.convertUser(sessionUser);
         } else throw new BadCredentialsException("Invalid user.");
     }
+
+    public List<QuestionGroup> getGroupByInvitedUser(User user) {
+        return repository.findAllByInvitedContains(user);
+    }
 }

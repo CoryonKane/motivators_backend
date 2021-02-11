@@ -1,6 +1,7 @@
 package com.codecool.motivators.controller;
 
 import com.codecool.motivators.dto.CardDto;
+import com.codecool.motivators.dto.QuestionGroupDto;
 import com.codecool.motivators.dto.UserDto;
 import com.codecool.motivators.service.UserService;
 import org.springframework.context.annotation.Lazy;
@@ -30,7 +31,7 @@ public class UserController {
         return service.addDefault(sessionUserEmail, list);
     }
 
-    @GetMapping("/search")
+    @GetMapping("search")
     public List<UserDto> searchUser (@RequestParam String name) {
         return service.searchUser(name);
     }
@@ -39,5 +40,11 @@ public class UserController {
     public UserDto editUser (@RequestBody UserDto userDto) {
         String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         return service.editUser(userDto, sessionUserEmail);
+    }
+
+    @GetMapping("invited")
+    public List<QuestionGroupDto> getInvited () {
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        return service.getInvited(sessionUserEmail);
     }
 }
