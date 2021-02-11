@@ -76,7 +76,9 @@ public class QuestionService {
     }
 
     public void deleteQuestion(Long id, String email) {
-        if (userService.getUserByEmail(email).equals(repository.getOne(id).getGroup().getOwner())) {
+        Question question = repository.getOne(id);
+        if (userService.getUserByEmail(email).equals(question.getGroup().getOwner())) {
+            question.getGroup().removeQuestion(question);
             repository.deleteById(id);
         } else throw new BadCredentialsException("Invalid user.");
     }
