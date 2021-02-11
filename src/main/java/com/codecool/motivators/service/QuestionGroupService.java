@@ -70,7 +70,11 @@ public class QuestionGroupService {
 
     public UserDto deleteQuestionGroup(Long id, String email) {
         User sessionUser = userService.getUserByEmail(email);
-        if (sessionUser.equals(getQuestionGroupById(id).getOwner())) {
+        QuestionGroup questionGroup = getQuestionGroupById(id);
+        if (sessionUser.equals(questionGroup.getOwner())) {
+            sessionUser.removeGroup(questionGroup);
+            questionGroup.getQuestions()
+                    .forEach(question -> questionService.deleteQuestion(question.getId(), sessionUser.getEmail()));
             repository.deleteById(id);
             return converter.convertUser(sessionUser);
         } else throw new BadCredentialsException("Invalid user.");
