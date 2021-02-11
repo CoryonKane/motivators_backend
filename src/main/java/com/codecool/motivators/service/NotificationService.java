@@ -39,8 +39,12 @@ public class NotificationService {
         return converter.convertNotification(getNotificationById(id));
     }
 
-    public void deleteNotificationById (Long id) {
-        repository.deleteById(id);
+    public void deleteNotification(Notification notification) {
+        notification.getOwner().removeReceivedNotification(notification);
+        notification.getSender().removeSentNotification(notification);
+        userService.saveUser(notification.getOwner());
+        userService.saveUser(notification.getSender());
+        repository.delete(notification);
     }
 
     private Notification saveNotification(Notification notification) {
@@ -82,15 +86,18 @@ public class NotificationService {
         QuestionGroup questionGroup = notification.getQuestionGroup();
         if (receiver.equals(notification.getOwner())) {
             questionGroup.addInvited(notification.getOwner());
-            deleteNotificationById(notification.getId());
+            deleteNotification(notification);
             return converter.convertQuestionGroup(questionGroup);
         } else throw new BadCredentialsException("Invalid user.");
     }
 
     public void declineInvitation(NotificationDto notificationDto, String email) {
-        if (userService.getUserByEmail(email).equals(userService.getUserById(notificationDto.getOwnerId())) ||
-                userService.getUserByEmail(email).equals(userService.getUserById(notificationDto.getSenderId()))) {
-            deleteNotificationById(notificationDto.getId());
+        Notification notification = getNotificationById(notificationDto.getId());
+        User sessionUser = userService.getUserByEmail(email);
+        User owner = notification.getOwner();
+        User sender = notification.getSender();
+        if (sessionUser.equals(owner) || sessionUser.equals(sender)) {
+            deleteNotification(notification);
         } else throw new BadCredentialsException("Invalid user.");
     }
 }
