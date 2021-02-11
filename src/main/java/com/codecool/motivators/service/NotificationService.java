@@ -52,14 +52,19 @@ public class NotificationService {
     }
 
     public void newInvite(String email, Long receiverId, QuestionGroupDto questionGroupDto) {
-        Notification notification = Notification.builder()
-                .sender(userService.getUserByEmail(email))
-                .owner(userService.getUserById(receiverId))
-                .questionGroup(questionGroupService.getQuestionGroupById(questionGroupDto.getId()))
-                .build();
-        userService.getUserByEmail(email).addSentNotification(notification);
-        userService.getUserById(receiverId).addReceivedNotification(notification);
-        saveNotification(notification);
+        User sessionUser = userService.getUserByEmail(email);
+        User receiver = userService.getUserById(receiverId);
+        QuestionGroup questionGroup = questionGroupService.getQuestionGroupById(questionGroupDto.getId());
+        if (!questionGroup.hasInvited(receiver)) {
+            Notification notification = Notification.builder()
+                    .sender(sessionUser)
+                    .owner(receiver)
+                    .questionGroup(questionGroup)
+                    .build();
+            userService.getUserByEmail(email).addSentNotification(notification);
+            userService.getUserById(receiverId).addReceivedNotification(notification);
+            saveNotification(notification);
+        }
     }
 
     public List<NotificationDto> getReceivedNotifications(String userEmail) {
