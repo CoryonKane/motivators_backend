@@ -86,7 +86,10 @@ public class NotificationService {
         Notification notification = getNotificationById(notificationDto.getId());
         QuestionGroup questionGroup = notification.getQuestionGroup();
         if (receiver.equals(notification.getOwner())) {
-            questionGroup.addInvited(notification.getOwner());
+            questionGroup.addInvited(receiver);
+            receiver.addInvitedTo(questionGroup);
+            questionGroupService.saveGroup(questionGroup);
+            userService.saveUser(receiver);
             deleteNotification(notification);
             return converter.convertQuestionGroup(questionGroup);
         } else throw new BadCredentialsException("Invalid user.");

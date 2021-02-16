@@ -29,31 +29,37 @@ public class User {
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<QuestionGroup> groups = new HashSet<>();
     @OneToMany(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<CardList> defaultLists = new ArrayList<>();
     @OneToMany(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Notification> sentNotification = new HashSet<>();
     @OneToMany(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Notification> receivedNotification = new HashSet<>();
     @ElementCollection
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<String> roles = new ArrayList<>();
     @ManyToMany
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<QuestionGroup> invitedTo = new HashSet<>();
 
     public void addGroup (QuestionGroup group) {

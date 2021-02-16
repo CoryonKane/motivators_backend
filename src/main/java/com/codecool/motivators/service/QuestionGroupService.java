@@ -49,7 +49,7 @@ public class QuestionGroupService {
                 .owner(userService.getUserByEmail(email))
                 .build();
         userService.getUserByEmail(email).addGroup(questionGroup);
-        return converter.convertQuestionGroup(repository.save(questionGroup));
+        return converter.convertQuestionGroup(saveGroup(questionGroup));
     }
 
     public List<UserDto> viewInvited(Long id, String email) {
@@ -64,7 +64,7 @@ public class QuestionGroupService {
         QuestionGroup questionGroup = repository.getOne(id);
         if (userService.getUserByEmail(email).equals(questionGroup.getOwner())) {
             questionGroup.setValue(name);
-            return repository.save(questionGroup).getValue();
+            return saveGroup(questionGroup).getValue();
         } else throw new BadCredentialsException("Invalid user.");
     }
 
@@ -82,5 +82,9 @@ public class QuestionGroupService {
 
     public List<QuestionGroup> getGroupByInvitedUser(User user) {
         return repository.findAllByInvitedContains(user);
+    }
+
+    public QuestionGroup saveGroup (QuestionGroup questionGroup) {
+        return repository.save(questionGroup);
     }
 }
