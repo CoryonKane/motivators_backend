@@ -20,7 +20,7 @@ public class QuestionGroup {
     private Long id;
     @Column(nullable = false)
     private String value;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<Question> questions = new HashSet<>();
@@ -31,7 +31,7 @@ public class QuestionGroup {
     @ManyToOne(optional = false)
     @EqualsAndHashCode.Exclude
     private User owner;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
     private List<Notification> notifications = new ArrayList<>();
 

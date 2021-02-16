@@ -95,4 +95,9 @@ public class UserService {
                 .map(converter::convertQuestionGroup)
                 .collect(Collectors.toList());
     }
+
+    public void deleteUser(String sessionUserEmail) {
+        User user = getUserByEmail(sessionUserEmail);
+        repository.delete(user);
+    }
 }

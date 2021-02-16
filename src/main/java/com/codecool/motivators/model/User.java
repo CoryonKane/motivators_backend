@@ -25,22 +25,22 @@ public class User {
     private String position;
     @Column(nullable = false)
     private String company;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<QuestionGroup> groups = new HashSet<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private List<CardList> defaultLists = new ArrayList<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<Notification> sentNotification = new HashSet<>();
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude

@@ -51,5 +51,6 @@ public class UserController {
     @DeleteMapping("")
     public void deleteUser () {
         String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        service.deleteUser(sessionUserEmail);
     }
 }

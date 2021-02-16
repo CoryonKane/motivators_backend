@@ -19,7 +19,7 @@ public class Question {
     private Long id;
     @Column(nullable = false)
     private String value;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @EqualsAndHashCode.Exclude
     private CardList answer;
     private String note;
