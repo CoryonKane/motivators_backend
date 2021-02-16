@@ -47,4 +47,9 @@ public class UserController {
         String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         return service.getInvited(sessionUserEmail);
     }
+
+    @DeleteMapping("")
+    public void deleteUser () {
+        String sessionUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 }

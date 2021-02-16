@@ -24,7 +24,7 @@ public class QuestionGroup {
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<Question> questions = new HashSet<>();
-    @OneToMany
+    @ManyToMany(mappedBy = "invitedTo")
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private Set<User> invited = new HashSet<>();

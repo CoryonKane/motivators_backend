@@ -25,7 +25,7 @@ public class User {
     private String position;
     @Column(nullable = false)
     private String company;
-    @OneToMany
+    @OneToMany(mappedBy = "owner")
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
@@ -50,6 +50,11 @@ public class User {
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private List<String> roles = new ArrayList<>();
+    @ManyToMany(mappedBy = "invited")
+    @JsonIgnore
+    @Builder.Default
+    @EqualsAndHashCode.Exclude
+    private Set<QuestionGroup> invitedTo = new HashSet<>();
 
     public void addGroup (QuestionGroup group) {
         this.groups.add(group);
@@ -87,5 +92,13 @@ public class User {
 
     public void removeReceivedNotification (Notification notification) {
         this.receivedNotification.remove(notification);
+    }
+
+    public void addInvitedTo (QuestionGroup questionGroup) {
+        this.invitedTo.add(questionGroup);
+    }
+
+    public void removeInvitedTo(QuestionGroup questionGroup) {
+        this.invitedTo.remove(questionGroup);
     }
 }

@@ -35,10 +35,6 @@ public class NotificationService {
         return repository.getOne(id);
     }
 
-    public NotificationDto getNotificationDtoById (Long id) {
-        return converter.convertNotification(getNotificationById(id));
-    }
-
     public void deleteNotification(Notification notification) {
         notification.getOwner().removeReceivedNotification(notification);
         notification.getSender().removeSentNotification(notification);
