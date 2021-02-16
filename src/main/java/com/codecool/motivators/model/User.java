@@ -50,7 +50,7 @@ public class User {
     @Builder.Default
     @EqualsAndHashCode.Exclude
     private List<String> roles = new ArrayList<>();
-    @ManyToMany(mappedBy = "invited")
+    @ManyToMany
     @JsonIgnore
     @Builder.Default
     @EqualsAndHashCode.Exclude
